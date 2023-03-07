@@ -30,7 +30,7 @@ async def handle_translation(message):
         if lang.lang == "es" or lang.lang == "de":
 
             if determinePermissions(message, lang.lang):
-                ts.info(f"{message.author.pathed_name} to {lang.lang} : {content}")
+                ts.info(f"{message.author.name} to {lang.lang} : {content}")
                 translation = translator.translate(content).text
 
                 similarity_index = similar(str(translation).lower(), str(content.lower()))
@@ -39,10 +39,10 @@ async def handle_translation(message):
                 if str(translation).lower().replace(" ", "") != content and \
                         str(translation).lower() != content and similarity_index < 0.95:
                     emojied_translation = replenesh_emojis(message, translation)
-                    await message.reply("**Translation:  **" + str(emojied_translation).replace("things", "stuff"),
+                    await message.reply(f"**Translation ({lang.lang} -> en):** " + str(emojied_translation).replace("things", "stuff"),
                                         mention_author=False)
             else:
-                ts.info(f"Denied {message.author.pathed_name} translation to {lang.lang}")
+                ts.info(f"Denied {message.author.name} translation to {lang.lang}")
     except TypeError:
         return
     except Exception as e:
@@ -79,14 +79,15 @@ def replenesh_emojis(message: discord.Message, content):
 
 
 def determinePermissions(message, language):
-    if language == "es":
-        role_name = "Spanish Speakers"
-    elif language == "de":
-        role_name = "German Speakers"
-    else:
-        return False
-
-    for r in message.author.roles:
-        if r.pathed_name == role_name:
-            return True
-    return False
+    # if language == "es":
+    #     role_name = "Spanish Speakers"
+    # elif language == "de":
+    #     role_name = "German Speakers"
+    # else:
+    #     return False
+    #
+    # for r in message.author.roles:
+    #     if r.pathed_name == role_name:
+    #         return True
+    # return False
+    return True
