@@ -1,0 +1,14 @@
+FROM python:3.10
+
+RUN apt-get update
+RUN apt-get install ffmpeg libsm6 libxext6  -y
+
+ADD src src
+RUN mkdir logs
+
+ADD requirements.txt .
+RUN pip install -r requirements.txt
+
+ENV GUILD_ID 375753471812435968
+
+CMD ["python", "src/Main.py"]
