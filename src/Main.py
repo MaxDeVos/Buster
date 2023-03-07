@@ -60,7 +60,7 @@ class Bot(commands.Bot, ABC):
         :return: number of non-bot users in self.bot.guild
         """
         total_users = 0
-        async for member in self.bot.guild.fetch_members():
+        async for member in self.guild.fetch_members():
             if not member.bot:
                 total_users += 1
         return total_users
