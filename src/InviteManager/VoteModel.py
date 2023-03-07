@@ -114,7 +114,7 @@ class VoteModel(TableEntry):
         if non_abstained_members == 0:
             return None
         yes_percentage = 100 * len(self.votes_yes) / non_abstained_members
-        no_percentage = 100 - yes_percentage
+        no_percentage = 100 * len(self.votes_no) / non_abstained_members
         return [yes_percentage, no_percentage]
 
     async def generate_vote_message(self, bot, result=None):
@@ -143,10 +143,12 @@ class VoteModel(TableEntry):
             num_bar_chars = 30
 
             yes_percent = self.generate_non_abstain_vote_percentages(guild_members)[0]
+            yes_vote_decimal = yes_percent / 100.0
+            num_yes_chars = int(round(yes_vote_decimal * num_bar_chars, 0))
+
             no_percent = self.generate_non_abstain_vote_percentages(guild_members)[1]
-            vote_decimal = yes_percent / 100.0
-            num_yes_chars = int(round(vote_decimal * num_bar_chars, 0))
-            num_no_chars = num_bar_chars - num_yes_chars
+            no_vote_decimal = no_percent / 100.0
+            num_no_chars = int(round(no_vote_decimal * num_bar_chars, 0))
 
             if result is None:
                 lines.append(f"**Current vote tally**```")
@@ -157,8 +159,8 @@ class VoteModel(TableEntry):
             elif result == "vetoed":
                 lines.append(f"**Final Result: *VETOED***```")
 
-            lines.append(f"YES: [{'=' * num_yes_chars}{' ' * num_no_chars}] | {yes_percent}%\n")
-            lines.append(f"NO:  [{'=' * num_no_chars}{' ' * num_yes_chars}] | {no_percent}%")
+            lines.append(f"YES: [{'=' * num_yes_chars}{' ' * (num_bar_chars - num_yes_chars)}] | {yes_percent}%\n")
+            lines.append(f"NO:  [{'=' * num_no_chars}{' ' * (num_bar_chars - num_no_chars)}] | {no_percent}%")
             if len(self.votes_abstain) > 0:
                 lines.append(f"\nABSTAIN: {len(self.votes_abstain)} votes")
 

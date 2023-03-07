@@ -16,7 +16,7 @@ def sanitize_input(input_text):
     :param input_text: original string to store
     :return: string with all commas replaced as periods
     """
-    return input_text.replace(",", ".")
+    return input_text.replace(",", "\\.").replace("\n", "   ")
 
 
 class DatabaseCog(Cog):

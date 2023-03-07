@@ -12,7 +12,7 @@ class DatabaseModel:
         self.reload()
 
     async def update_entry(self, col_id, column, entry):
-        column = int(column)
+        column = column # used to be casted to int()
         self.data[col_id][column] = entry
         await self.rewrite_table()
 

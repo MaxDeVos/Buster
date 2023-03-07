@@ -110,7 +110,7 @@ class InviteCog(commands.Cog):
         else:
             await interaction.response.send_message("Your vote has been removed.", ephemeral=True)
 
-        if vote_model.get_total_votes() == await self.determine_guild_users():
+        if vote_model.get_total_votes() == await self.bot.determine_guild_users():
             await self.handle_vote_end(vote_id)
 
     async def regenerate_vote_message(self, vote_model):
@@ -131,17 +131,17 @@ class InviteCog(commands.Cog):
         """
         if message.guild is None and not message.author.bot:
             try:
-                vote_id = int(message.content)
+                vote_id = message.content
                 self.active_votes[vote_id].process_veto()
                 new_row = self.active_votes[vote_id].generate_table_entry()
                 self.bot.dispatch("database_query_replace_row", "InviteQueue", vote_id, new_row, False)
-                await message.reply("The veto has been processed. Feel free to dismiss this message and delete your DM."
-                                    , ephemeral=True)
+                await message.reply("The veto has been processed. This message will automatically be deleted "
+                                    "in 2 minutes.", delete_after=120)
             except ValueError:
                 ts.warn(f"Received DM that wasn't a valid veto from {message.author.name}: {message.content}")
             except Exception as e:
                 ts.error("Failure processing veto!")
-                await message.reply("Something is fucked, sorry. Talk to max", ephemeral=True)
+                await message.reply("Something is fucked, sorry. Talk to max", delete_after=120)
                 print(e)
 
     async def build_vote_models_from_database(self):
