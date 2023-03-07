@@ -9,10 +9,7 @@ As the threat against marginalized communities continues to grow, the need for p
 
 <h3>Anonymous invite approval system</h3>
 <p>In order to protect the people within your community, Buster employs a unique join system which requires the anonymous approval (or abstention) of all members of the server, and provides the opportunity for anybody to anonomously veto any admission via a message sent externally (a DM to Buster).</p>
-<div style="display:flex;">
-  <img align="top" src="screenshots/invite_request_modal.png" height="415px"; alt="Example of post that will be pinned">
-  <img align="top" src="screenshots/invite_request_menu.png" height="415px"; alt="Example of pinned post">
-</div>
+<img align="top" src="screenshots/invite_request.png" width="100%"; alt="The two primary UIs that drive the invite system">
 
 <h3>Internal Database</h3>
 <p>Contains "database-to-channel" (a term you'll only hear once) middleware which allows for use of one TextChannel as an event-driven database, with each message representing a table. This has the benefit of allowing the bot's code to be entirely portable, all data ABOUT the server is stored IN the server. No CVS files or MySQL database to carry around. Server goes down? Fire it up on your laptop.</p>
