@@ -4,7 +4,6 @@ data/test_key.txt
 /Legacy/pycord/
 /Legacy/
 *.pyc
-*.png
 *.jpg
 *.jpeg
 /venv/
