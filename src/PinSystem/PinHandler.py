@@ -44,7 +44,7 @@ class PinHandler:
         if not self.pins_ready and not force:
             ts.error("Attempted to pin before PinHandler was ready. You'll have to try again")
         else:
-            ts.info("Pinning Message From: " + message.author.pathed_name)
+            ts.info(f"Pinning Message From: {message.author.mention}")
             self.pinned_messages.append(message.id)
 
             files = []
